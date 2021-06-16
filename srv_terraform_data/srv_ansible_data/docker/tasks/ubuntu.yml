@@ -1,0 +1,61 @@
+---
+# tasks file for docker
+- name: Install pre-requisite packages
+  apt:
+   name: "{{item}}"
+   state: latest
+  loop:
+   - yum-utils
+   - device-mapper-persistent-data
+   - lvm2
+  ignore_errors: yes
+
+- name: Install Docker
+  apt:
+    name: docker
+    state: latest
+
+- name: Start and enable the Docker daemon
+  service: name=docker state=started enabled=yes
+- name: Enable the Docker daemon in systemd
+  systemd:
+    name: docker
+    enabled: yes
+    masked: no
+
+- name: Start the Docker daemon
+  systemd:
+    name: docker
+    state: started
+    masked: no
+
+
+- name: Download and install Docker Compose
+  get_url:
+    url: https://github.com/docker/compose/releases/download/1.21.2/docker-compose-Linux-x86_64
+    dest: /usr/bin/docker-compose
+    mode: 0755
+
+- name: Creates directory for jenkins
+  file:
+    path: /tmp/jenkins_home
+    state: directory
+
+- name: Changing perm of "/var/run/docker.sock", adding "666"
+  become: True
+  file:
+    dest: /var/run/docker.sock
+    mode: 666
+
+- name: Change file permission
+  file:
+    path: /tmp/jenkins_home
+    owner: "1000"
+    group: "1000"
+
+- name: Run container
+  become: True
+  shell:
+    cmd: "docker-compose -f docker-compose.yml up -d"
+    chdir: /tmp/
+

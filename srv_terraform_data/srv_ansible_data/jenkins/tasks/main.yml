@@ -1,0 +1,12 @@
+# tasks file for jenkins
+- name: using CENTOS file
+  include_tasks: debian.yml
+  when: ansible_distribution == "Debian"
+
+- name: using UBUNTU file
+  include_tasks: ubuntu.yml
+  when: ansible_distribution == "Ubuntu"
+
+- name: using RedHat file
+  include_tasks: fedora.yml
+  when: ansible_os_family == "RedHat"

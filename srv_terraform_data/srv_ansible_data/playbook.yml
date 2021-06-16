@@ -1,0 +1,8 @@
+- hosts: jenkins_srv
+  become: true
+  roles:
+     - role: jenkins
+- hosts: docker_srv
+  become: true
+  roles:
+     - role: docker
