@@ -2,7 +2,7 @@
 # Run Ansible Server
 #---------------------------------------------------------------
 resource "aws_instance" "ansible_srv" {
-  instance_type          = "t2.micro"
+  instance_type          = "${var.instance_type}"
   ami                    = "${lookup(var.amis, var.aws_region)}"
   key_name               = "${aws_key_pair.amz_key.key_name}"
   subnet_id              = "${aws_subnet.main-public-srv.id}"
@@ -42,7 +42,7 @@ resource "aws_instance" "ansible_srv" {
 # Run Jenkins Server
 #---------------------------------------------------------------
 resource "aws_instance" "jenkins_srv" {
-  instance_type          = "t2.micro"
+  instance_type          = "${var.instance_type}"
   ami                    = "${lookup(var.amis, var.aws_region)}"
   key_name               = "${aws_key_pair.ans_ins_key.key_name}"
   subnet_id              = "${aws_subnet.main-public-srv.id}"
@@ -53,7 +53,7 @@ resource "aws_instance" "jenkins_srv" {
 # Run Docker Server
 #---------------------------------------------------------------
 resource "aws_instance" "docker_srv" {
-  instance_type          = "t2.micro"
+  instance_type          = "${var.instance_type}"
   ami                    = "${lookup(var.amis, var.aws_region)}"
   key_name               = "${aws_key_pair.ans_ins_key.key_name}"
   subnet_id              = "${aws_subnet.main-public-srv.id}"
