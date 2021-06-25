@@ -20,6 +20,9 @@ variable "amis" {
 variable "instance_username" {
   default   = "ec2-user"
 }
+variable "instance_type" {
+  default   = "t2.micro"
+}
 #---------------------------------------------------------------
 # Keys
 #---------------------------------------------------------------
